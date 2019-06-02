@@ -1,0 +1,10 @@
+---
+
+- hosts: all
+  name: deploy tools
+  remote_user: "{{ user }}"
+  roles:
+    - timezone
+    - ufw
+    - git
+    - dotfiles

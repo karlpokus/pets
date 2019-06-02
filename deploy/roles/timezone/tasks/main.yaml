@@ -1,0 +1,6 @@
+---
+
+- name: Set timezone
+  become: true
+  timezone:
+    name: Europe/Copenhagen

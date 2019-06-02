@@ -1,0 +1,10 @@
+---
+
+- name: Clone
+  git:
+    repo: 'https://github.com/karlpokus/dotfiles'
+    dest: /home/{{ user }}/dotfiles
+    update: no
+
+- name: Run init
+  shell: /home/{{ user }}/dotfiles/init.sh

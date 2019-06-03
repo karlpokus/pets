@@ -1,0 +1,7 @@
+---
+
+- hosts: all
+  name: deploy metricbeat
+  remote_user: "{{ user }}"
+  roles:
+    - metricbeat

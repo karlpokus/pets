@@ -19,13 +19,17 @@ Since elastic apm captures redis-, and mongodb traffic ootb we'll include them s
 - [redis stats](https://www.elastic.co/guide/en/beats/metricbeat/current/metricbeat-module-redis.html)
 - [go mem and gc](https://www.elastic.co/guide/en/beats/metricbeat/current/metricbeat-module-golang.html)
 
+# usage
+```bash
+# web
+GET /api/v1/pets
+```
+
 # deploy
 ```bash
 cd deploy
 # initial setup
-$ ansible-playbook -i hosts user.yaml --limit <host>
-# deploy some developer friendly tools
-$ ansible-playbook -i hosts tools.yaml --limit <host>
+$ ansible-playbook -i hosts user.yaml tools.yaml --limit <host>
 # deploy metrics
 $ ansible-playbook -i hosts metricbeat.yaml
 ```
@@ -35,7 +39,7 @@ $ ansible-playbook -i hosts metricbeat.yaml
 - [x] deploy and run mongodb
 - [x] mongodb metrics w metricbeat modules System, MongoDB
 - [x] hostmetrics playbook
-- [ ] api
+- [x] web-api
 - [ ] service
 - [x] elastic apm on elastic cloud
 - [ ] [centralized logs](https://www.elastic.co/products/beats/filebeat)

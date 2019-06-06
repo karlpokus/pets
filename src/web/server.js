@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const secrets = require("./secrets");
-//const apm = require('elastic-apm-node').start(secrets.apm)
+const apm = require('elastic-apm-node').start(secrets.apm)
 const port = process.env.PORT || 9012;
 
 const Koa = require('koa');

@@ -40,7 +40,7 @@ $ ansible-playbook -i hosts metricbeat.yaml
 - [x] mongodb metrics w metricbeat modules System, MongoDB
 - [x] hostmetrics playbook
 - [x] web-api
-- [ ] service
+- [x] service
 - [x] elastic apm on elastic cloud
 - [ ] [centralized logs](https://www.elastic.co/products/beats/filebeat)
 - [ ] [ping/heartbeat](https://www.elastic.co/products/beats/heartbeat)

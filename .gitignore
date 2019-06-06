@@ -12,5 +12,7 @@
 *.out
 
 *.retry
-
 .vault_pass
+secrets.json
+node_modules
+bin

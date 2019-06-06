@@ -7,7 +7,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/julienschmidt/httprouter"
+	"go.elastic.co/apm/module/apmhttprouter"
 )
 
 type Server struct {
@@ -26,7 +26,7 @@ func (s *Server) Start() error {
 }
 
 func New(port string) *Server {
-	router := httprouter.New()
+	router := apmhttprouter.New() // wraps httprouter
 	router.Handler("GET", "/api/v1/pets", logRequest(getPets()))
 	router.Handler("GET", "/api/v1/version", logRequest(getVersion()))
 

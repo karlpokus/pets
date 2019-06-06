@@ -1,7 +1,6 @@
 package pets
 
 import (
-	"context"
 	"fmt"
 	"net/http"
 

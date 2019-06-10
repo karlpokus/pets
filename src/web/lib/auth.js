@@ -19,10 +19,10 @@ function auth(ctx, next) {
 				return next();
 			})
 			.catch(err => {
-				return ctx.throw(401, "Unauthorized")
+				return ctx.throw(401, "Unauthorized\n")
 			});
 	}
-	return ctx.throw(401, "Unauthorized")
+	return ctx.throw(401, "Unauthorized\n")
 }
 
 module.exports = auth;

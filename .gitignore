@@ -17,3 +17,4 @@ secrets.json
 node_modules
 bin
 hans.conf
+hans.yml

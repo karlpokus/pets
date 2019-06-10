@@ -3,8 +3,6 @@ package pets
 import (
 	"fmt"
 	"net/http"
-
-	"github.com/julienschmidt/httprouter"
 )
 
 func logRequest(next http.Handler) http.HandlerFunc {

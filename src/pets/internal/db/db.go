@@ -9,6 +9,7 @@ import (
   "pets/internal/vault"
   "go.mongodb.org/mongo-driver/mongo"
   "go.mongodb.org/mongo-driver/mongo/options"
+  "go.elastic.co/apm/module/apmmongo"
 )
 
 type Vault struct {
@@ -29,11 +30,14 @@ func New() (client *mongo.Client, err error) {
   if err != nil {
     return
   }
-  clientOpts := options.Client().SetAppName("pets-service").SetAuth(options.Credential{
+  clientOpts := options.Client().SetAppName("pets-service")
+  clientOpts.SetAuth(options.Credential{
     AuthSource: v.Mongodb.Pets.Authsource,
     Username: v.Mongodb.Pets.User,
     Password: v.Mongodb.Pets.Pwd,
-  }).ApplyURI(fmt.Sprintf("mongodb://localhost:%s", v.Mongodb.Port.Dev))
+  })
+  clientOpts.SetMonitor(apmmongo.CommandMonitor())
+  clientOpts.ApplyURI(fmt.Sprintf("mongodb://localhost:%s", v.Mongodb.Port.Dev))
 
   ctx, cancel := context.WithTimeout(context.Background(), 3 * time.Second)
   defer cancel()

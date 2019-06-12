@@ -33,7 +33,7 @@ func getVersion() http.HandlerFunc {
 func getPets(client *mongo.Client, stderr *log.Logger) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		coll := client.Database("pets").Collection("pets")
-		ctx, cancel := context.WithTimeout(context.Background(), 3 * time.Second)
+		ctx, cancel := context.WithTimeout(r.Context(), 3 * time.Second)
 	  defer cancel()
 	  cur, err := coll.Find(ctx, bson.M{}, options.Find())
 	  if err != nil {

@@ -2,7 +2,6 @@ package main
 
 import (
   "flag"
-  "os"
   "fmt"
 
   "pets"
@@ -17,8 +16,12 @@ func main() {
   flag.Parse()
   if *version {
     fmt.Println(pets.Version)
-    os.Exit(0)
+    return
   }
-  server := pets.New(*port)
+  server, err := pets.New(*port)
+  if err != nil {
+    fmt.Printf("Unable to create server: %s", err)
+    return
+  }
   server.Start()
 }

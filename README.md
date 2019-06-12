@@ -21,7 +21,9 @@ Since elastic apm captures redis-, and mongodb traffic ootb we'll include them s
 
 # usage
 ```bash
-# web
+# run dev
+$ hans -v -conf hans.yml
+# api
 GET /api/v1/pets
 ```
 
@@ -42,6 +44,7 @@ $ ansible-playbook -i hosts metricbeat.yaml
 - [x] web-api
 - [x] service
 - [x] elastic apm on elastic cloud
+- [x] add apm agents
 - [ ] [centralized logs](https://www.elastic.co/products/beats/filebeat)
 - [ ] [ping/heartbeat](https://www.elastic.co/products/beats/heartbeat)
 - [ ] elastic apm rum

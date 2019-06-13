@@ -49,3 +49,4 @@ $ ansible-playbook -i hosts metricbeat.yaml
 - [ ] [ping/heartbeat](https://www.elastic.co/products/beats/heartbeat)
 - [ ] elastic apm rum
 - [ ] [kibana dashboards](https://www.elastic.co/guide/en/kibana/7.1/dashboard.html)
+- [ ] etcd for config management

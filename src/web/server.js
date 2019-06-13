@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
-const secrets = require("./secrets");
-const apm = require('elastic-apm-node').start(secrets.apm)
+const apm = require('elastic-apm-node').start()
 const port = process.env.PORT || 9012;
 
 const Koa = require('koa');
@@ -19,12 +18,12 @@ app
 	.use(router.routes())
 	.use(router.allowedMethods())
 
-db(secrets.mongoOpts)
+db()
 	.then(users => {
 		app.context.users = users;
 		app.listen(port, () => { console.log(`web vX.Y.Z listening on port ${ port }`) })
 	})
 	.catch(err => {
 		console.error(err);
-		process.exit(1);
+		process.exit(0); // do not restart from unrecoverable err
 	})

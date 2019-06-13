@@ -5,6 +5,7 @@ const port = process.env.PORT || 9012;
 
 const Koa = require('koa');
 const Router = require('koa-router');
+const bodyparser = require('koa-bodyparser');
 const auth = require('./lib/auth');
 const db = require('./lib/db');
 const pets = require('./lib/pets');
@@ -12,9 +13,12 @@ const pets = require('./lib/pets');
 const app = new Koa();
 const router = new Router({ prefix: "/api/v1" });
 
-router.get("/pets", auth, pets.allPets);
+router
+	.get("/pets", auth, pets.allPets)
+	.post("/pet", auth, pets.addPet);
 
 app
+	.use(bodyparser())
 	.use(router.routes())
 	.use(router.allowedMethods())
 

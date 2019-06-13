@@ -3,7 +3,7 @@
 # USAGE
 # $ ./tunnel.sh start|stop
 
-# starts an ssh tunnel to $HOST
+# starts or stops an ssh tunnel to $HOST
 # stops the tunnel on SIGINT if being run by a daemon
 
 if test $# -eq 0; then
@@ -42,6 +42,6 @@ fi
 if ! test -t 1; then
   trap 'stop_sock; exit 0' SIGINT
   while true; do
-    :
+    sleep 2 #:
   done
 fi

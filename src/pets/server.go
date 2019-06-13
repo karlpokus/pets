@@ -55,7 +55,7 @@ func New(port string) (*Server, error) {
 	if err != nil {
 		return nil, err
 	}
-	Stdout.Println("connected to mongodb")
+	Stdout.Println("connected to db")
 	router := apmhttprouter.New() // wraps httprouter
 	router.Handler("GET", "/api/v1/pets", logRequest(getPets(client, Stderr)))
 	router.Handler("GET", "/api/v1/version", logRequest(getVersion()))

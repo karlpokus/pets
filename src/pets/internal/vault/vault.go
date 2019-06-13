@@ -8,6 +8,7 @@ import (
   "gopkg.in/yaml.v2"
 )
 
+// View populates v with contents from the vault
 func View(cwd, vaultPath string, v interface{}) error {
   Cmd := exec.Command("ansible-vault", "view", vaultPath)
   Cmd.Dir = cwd

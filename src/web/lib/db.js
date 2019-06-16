@@ -1,6 +1,6 @@
 // https://mongodb.github.io/node-mongodb-native/3.2/api/MongoClient.html
 const mongo = require('mongodb').MongoClient;
-const port = process.env.MONGODB_PORT_DEV;
+const port = process.env.MONGODB_PORT;
 const connString = `mongodb://localhost:${ port }`;
 const opts = {
   useNewUrlParser: true,

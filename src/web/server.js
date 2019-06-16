@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const apm = require('elastic-apm-node').start()
-const port = process.env.PORT || 9012;
+const port = process.env.PORT || 9012; // TODO: set this to HTTP_PORT
 
 const Koa = require('koa');
 const Router = require('koa-router');

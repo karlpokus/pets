@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
 const apm = require('elastic-apm-node').start()
-const port = process.env.PORT || 9012; // TODO: set this to HTTP_PORT
+const port = process.env.HTTP_PORT;
+const host = process.env.HTTP_HOST;
 
 const Koa = require('koa');
 const Router = require('koa-router');
@@ -25,7 +26,9 @@ app
 db()
 	.then(users => {
 		app.context.users = users;
-		app.listen(port, () => { console.log(`web vX.Y.Z listening on port ${ port }`) })
+		app.listen(port, host, () => {
+			console.log(`web vX.Y.Z listening on ${ host }:${ port }`)
+		})
 	})
 	.catch(err => {
 		console.error(err);

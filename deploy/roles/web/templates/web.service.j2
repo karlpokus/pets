@@ -1,0 +1,25 @@
+[Unit]
+Description=the front end for pets
+Before=shutdown.target reboot.target halt.target
+After=network-online.target
+
+[Service]
+ExecStart=/usr/bin/npm start
+WorkingDirectory=/home/{{ user }}/pets/src/web
+Restart=always
+User={{ user }}
+Environment=ELASTIC_APM_SERVER_URL={{ elastic_apm.server_url }}
+Environment=ELASTIC_APM_SECRET_TOKEN={{ elastic_apm.secret_token }}
+Environment=ELASTIC_APM_SERVICE_NAME=pets-web
+Environment=MONGODB_PETS_USER={{ mongodb.pets.user }}
+Environment=MONGODB_PETS_PWD={{ mongodb.pets.pwd }}
+Environment=MONGODB_PETS_AUTHSOURCE={{ mongodb.pets.authsource }}
+Environment=MONGODB_HOST={{ mongodb.host }}
+Environment=MONGODB_PORT={{ mongodb.port }}
+Environment=HTTP_HOST={{ web.host }}
+Environment=HTTP_PORT={{ web.port }}
+Environment=SERVICE_PETS_HOST={{ pets.host }}
+Environment=SERVICE_PETS_PORT={{ pets.port }}
+
+[Install]
+WantedBy=multi-user.target

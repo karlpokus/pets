@@ -1,0 +1,46 @@
+---
+
+- name: install
+  become: true
+  apt:
+    name: nginx
+    update_cache: yes
+
+- name: Allow http on port 80
+  become: true
+  ufw:
+    rule: allow
+    port: 80
+    proto: tcp
+    state: reloaded
+
+- name: remove default symlink
+  become: true
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
+- name: copy config
+  become: true
+  template:
+    src: roles/nginx/templates/web.conf.j2
+    dest: /etc/nginx/sites-available/web
+    mode: 0644
+    owner: root
+
+- name: symlink config
+  become: true
+  file:
+    src: /etc/nginx/sites-available/web
+    dest: /etc/nginx/sites-enabled/web
+    state: link
+
+- name: Restart and reload
+  become: true
+  systemd:
+    name: nginx
+    enabled: yes
+    state: restarted
+    daemon_reload: yes
+  tags:
+    - restart

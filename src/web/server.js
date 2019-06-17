@@ -1,6 +1,4 @@
-#!/usr/bin/env node
-
-const apm = require('elastic-apm-node').start()
+const apm = require('elastic-apm-node').start();
 const port = process.env.HTTP_PORT;
 const host = process.env.HTTP_HOST;
 const version = process.env.npm_package_version;

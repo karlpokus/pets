@@ -3,6 +3,7 @@
 const apm = require('elastic-apm-node').start()
 const port = process.env.HTTP_PORT;
 const host = process.env.HTTP_HOST;
+const version = process.env.npm_package_version;
 
 const Koa = require('koa');
 const Router = require('koa-router');
@@ -27,7 +28,7 @@ db()
 	.then(users => {
 		app.context.users = users;
 		app.listen(port, host, () => {
-			console.log(`web vX.Y.Z listening on ${ host }:${ port }`)
+			console.log(`web ${ version } listening on ${ host }:${ port }`)
 		})
 	})
 	.catch(err => {

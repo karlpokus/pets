@@ -7,10 +7,7 @@ import (
   "pets"
 )
 
-var (
-  version = flag.Bool("version", false, "print version and exit")
-  port = flag.String("port", "37042", "http port")
-)
+var version = flag.Bool("version", false, "print version and exit")
 
 func main() {
   flag.Parse()
@@ -18,7 +15,7 @@ func main() {
     fmt.Println(pets.Version)
     return
   }
-  server, err := pets.New(*port)
+  server, err := pets.New()
   if err != nil {
     fmt.Printf("Unable to create server: %s", err)
     return

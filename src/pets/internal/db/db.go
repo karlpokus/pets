@@ -21,7 +21,7 @@ func New() (*mongo.Client, error) {
     Password: os.Getenv("MONGODB_PETS_PWD"),
   })
   clientOpts.SetMonitor(apmmongo.CommandMonitor())
-  clientOpts.ApplyURI(fmt.Sprintf("mongodb://localhost:%s", os.Getenv("MONGODB_PORT")))
+  clientOpts.ApplyURI(fmt.Sprintf("mongodb://%s:%s", os.Getenv("MONGODB_HOST"), os.Getenv("MONGODB_PORT")))
 
   ctx, cancel := context.WithTimeout(context.Background(), 3 * time.Second)
   defer cancel()

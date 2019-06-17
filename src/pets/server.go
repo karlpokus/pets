@@ -16,8 +16,8 @@ import (
 
 type Server struct {
 	*http.Server
-	Port string
 	*mongo.Client
+	Addr string
 }
 
 var Version = "vX.Y.Z" // injected at build time
@@ -46,11 +46,11 @@ func cleanupOnExit(s *Server) {
 
 func (s *Server) Start() error {
 	go cleanupOnExit(s)
-	Stdout.Println(fmt.Sprintf("pets %s listening on port %s", Version, s.Port))
+	Stdout.Println(fmt.Sprintf("pets %s listening on %s", Version, s.Addr))
 	return s.ListenAndServe()
 }
 
-func New(port string) (*Server, error) {
+func New() (*Server, error) {
 	client, err := db.New()
 	if err != nil {
 		return nil, err
@@ -61,16 +61,19 @@ func New(port string) (*Server, error) {
 	router.Handler("GET", "/api/v1/version", logRequest(getVersion()))
 	router.Handler("POST", "/api/v1/pet", logRequest(addPet(client)))
 
+	host := os.Getenv("HTTP_HOST")
+	port := os.Getenv("HTTP_PORT")
+	addr := fmt.Sprintf("%s:%s", host, port)
 	return &Server{
 		Server: &http.Server{
-			Addr:              fmt.Sprintf(":%s", port),
+			Addr:              addr,
 			Handler:           router,
 			ReadTimeout:       10 * time.Second,
 			WriteTimeout:      10 * time.Second,
 			ReadHeaderTimeout: 10 * time.Second,
 			MaxHeaderBytes:    1 << 20, // 1 MB
 		},
-		Port: port,
+		Addr: addr,
 		Client: client,
 	}, nil
 }

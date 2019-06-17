@@ -1,0 +1,33 @@
+---
+
+- name: Copy service file
+  become: true
+  template:
+    src: roles/pets/templates/pets.service.j2
+    dest: /etc/systemd/system/pets.service
+    mode: 0644
+
+- name: Copy bin
+  become: true
+  copy:
+    src: ../src/pets/bin/linux/pets
+    dest: /usr/local/bin
+    mode: 0744
+    owner: "{{ user }}"
+
+- name: Allow http
+  become: true
+  ufw:
+    rule: allow
+    from: "{{ web.ip }}"
+    port: "{{ pets.port }}"
+    proto: tcp
+    state: reloaded
+
+- name: Restart and reload
+  become: true
+  systemd:
+    name: pets
+    enabled: yes
+    state: restarted
+    daemon_reload: yes

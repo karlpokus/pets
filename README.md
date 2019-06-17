@@ -45,6 +45,10 @@ cd deploy
 $ ansible-playbook -i hosts user.yaml tools.yaml --limit <host>
 # deploy metrics
 $ ansible-playbook -i hosts metricbeat.yaml
+# deploy and start web
+$ ansible-playbook -i hosts web.yaml [--tags=restart,update_conf]
+# deploy and start pets service
+$ ansible-playbook -i hosts pets.yaml
 ```
 
 # todos
@@ -57,6 +61,7 @@ $ ansible-playbook -i hosts metricbeat.yaml
 - [x] service
 - [x] elastic apm on elastic cloud
 - [x] add apm agents
+- [ ] deploy web and service
 - [ ] [centralized logs](https://www.elastic.co/products/beats/filebeat)
 - [ ] [ping/heartbeat](https://www.elastic.co/products/beats/heartbeat)
 - [ ] elastic apm rum

@@ -1,0 +1,12 @@
+---
+
+- hosts: localhost
+  name: run build before deploy
+  tasks:
+    - local_action: command ../src/pets/build.sh linux
+
+- hosts: service-01
+  name: deploy pets service
+  remote_user: "{{ user }}"
+  roles:
+    - pets

@@ -8,14 +8,15 @@ const Router = require('koa-router');
 const bodyparser = require('koa-bodyparser');
 const auth = require('./lib/auth');
 const db = require('./lib/db');
-const pets = require('./lib/pets');
+const routes = require('./lib/routes');
 
 const app = new Koa();
 const router = new Router({ prefix: "/api/v1" });
 
 router
-	.get("/pets", auth, pets.allPets)
-	.post("/pet", auth, pets.addPet);
+	.get("/pets", auth, routes.allPets)
+	.post("/pet", auth, routes.addPet)
+	.get("/stats", routes.stat);
 
 app
 	.use(bodyparser())
@@ -31,5 +32,5 @@ db()
 	})
 	.catch(err => {
 		console.error(err);
-		process.exit(0); // do not restart from unrecoverable err
+		process.exit(0);
 	})

@@ -42,7 +42,9 @@ $ curl -i -u <credentials> -d <data> -H "Content-Type:application/json" localhos
 ```bash
 cd deploy
 # initial setup
-$ ansible-playbook -i hosts user.yaml tools.yaml --limit <host>
+$ ansible-playbook -i hosts user.yaml tools.yaml [--limit <host>]
+# setup mongodb
+$ ansible-playbook -i hosts mongodb.yaml
 # deploy metrics
 $ ansible-playbook -i hosts metricbeat.yaml
 # deploy and start web

@@ -1,0 +1,31 @@
+---
+
+- name: Allow connections
+  become: true
+  ufw:
+    rule: allow
+    from: "{{ item }}"
+    port: "{{ mongodb.port }}"
+    proto: tcp
+    state: reloaded
+  loop:
+    - "{{ web.ip }}"
+    - "{{ pets.ip }}"
+
+- name: copy config
+  become: true
+  template:
+    src: roles/mongodb/templates/mongod.conf.j2
+    dest: /etc/mongod.conf
+    mode: 0644
+    owner: root
+
+- name: Restart and reload
+  become: true
+  systemd:
+    name: mongod
+    enabled: yes
+    state: restarted
+    daemon_reload: yes
+  tags:
+    - restart

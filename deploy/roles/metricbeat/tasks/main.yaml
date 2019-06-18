@@ -26,6 +26,16 @@
     dest: /etc/metricbeat/metricbeat.yml
     mode: 0600
     owner: root
+    force: yes
+
+- name: copy system configs
+  become: true
+  template:
+    src: roles/metricbeat/templates/system.yml.j2
+    dest: /etc/metricbeat/modules.d/system.yml
+    mode: 0644
+    owner: root
+    force: yes
 
 - name: copy mongodb configs
   become: true
@@ -42,6 +52,22 @@
     path: /etc/metricbeat/modules.d/mongodb.yml.disabled
     state: absent
   when: mongodb_host is defined
+
+- name: copy nginx configs
+  become: true
+  template:
+    src: roles/metricbeat/templates/nginx.yml.j2
+    dest: /etc/metricbeat/modules.d/nginx.yml
+    mode: 0644
+    owner: root
+  when: nginx_host is defined
+
+- name: remove disabled nginx configs
+  become: true
+  file:
+    path: /etc/metricbeat/modules.d/nginx.yml.disabled
+    state: absent
+  when: nginx_host is defined
 
 - name: Restart process and reload systemd
   become: true

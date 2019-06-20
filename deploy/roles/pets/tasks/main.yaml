@@ -19,10 +19,13 @@
   become: true
   ufw:
     rule: allow
-    from: "{{ web.ip }}"
+    from: "{{ item }}"
     port: "{{ pets.port }}"
     proto: tcp
     state: reloaded
+  loop:
+    - "{{ web.ip.private }}"
+    - "{{ load.ip.private }}"
 
 - name: Restart and reload
   become: true

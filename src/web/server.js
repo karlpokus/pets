@@ -1,4 +1,4 @@
-const apm = require('elastic-apm-node').start();
+const apm = require('elastic-apm-node').start(); // note: swallows exceptions
 const port = process.env.HTTP_PORT;
 const host = process.env.HTTP_HOST;
 const version = process.env.npm_package_version;
@@ -16,7 +16,7 @@ const router = new Router({ prefix: "/api/v1" });
 router
 	.get("/pets", auth, routes.allPets)
 	.post("/pet", auth, routes.addPet)
-	.get("/stats", routes.stat)
+	.get("/stats", routes.stats)
 	.get("/ping", routes.ping);
 
 app
@@ -32,6 +32,6 @@ db()
 		})
 	})
 	.catch(err => {
-		console.error(err);
+		console.error(`Attempt to connect to db failed: ${ err }`);
 		process.exit(0);
 	})

@@ -1,17 +1,17 @@
 package pets
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
-	"context"
 	"time"
 
-	"pets/internal/db"
 	"go.elastic.co/apm/module/apmhttprouter"
 	"go.mongodb.org/mongo-driver/mongo"
+	"pets/internal/db"
 )
 
 type Server struct {
@@ -30,7 +30,7 @@ func cleanupOnExit(s *Server) {
 	signal.Notify(sig, os.Interrupt)
 	<-sig
 	Stdout.Println()
-	ctx, cancel := context.WithTimeout(context.Background(), 1 * time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 	defer cancel()
 	if err := s.Client.Disconnect(ctx); err != nil {
 		Stderr.Printf("Client disconnect err: %s", err)
@@ -58,7 +58,7 @@ func New() (*Server, error) {
 	Stdout.Println("connected to db")
 	router := apmhttprouter.New() // wraps httprouter
 	router.Handler("GET", "/api/v1/pets", logRequest(getPets(client)))
-	router.Handler("GET", "/api/v1/version", logRequest(getVersion()))
+	router.Handler("GET", "/api/v1/stats", stats())
 	router.Handler("POST", "/api/v1/pet", logRequest(addPet(client)))
 	router.Handler("GET", "/api/v1/ping", ping(client))
 
@@ -74,7 +74,7 @@ func New() (*Server, error) {
 			ReadHeaderTimeout: 10 * time.Second,
 			MaxHeaderBytes:    1 << 20, // 1 MB
 		},
-		Addr: addr,
+		Addr:   addr,
 		Client: client,
 	}, nil
 }

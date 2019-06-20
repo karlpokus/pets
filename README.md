@@ -65,6 +65,7 @@ $ ansible-playbook -i hosts pets.yaml
 - [x] elastic apm on elastic cloud
 - [x] add apm agents
 - [x] deploy web and service
+- [x] let web stats end point collect stats from pets
 - [ ] [centralized logs](https://www.elastic.co/products/beats/filebeat)
 - [x] [ping/heartbeat](https://www.elastic.co/products/beats/heartbeat)
 - [ ] elastic apm rum

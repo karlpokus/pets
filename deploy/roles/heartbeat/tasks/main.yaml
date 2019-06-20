@@ -1,0 +1,39 @@
+---
+
+- name: add signing key
+  become: true
+  apt_key:
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    state: present
+
+- name: add repo
+  become: true
+  apt_repository:
+    repo: deb https://artifacts.elastic.co/packages/7.x/apt stable main
+    filename: elastic-7.x.list
+    state: present
+
+- name: install
+  become: true
+  apt:
+    name: heartbeat-elastic
+    update_cache: yes
+
+- name: copy configs
+  become: true
+  template:
+    src: roles/heartbeat/templates/heartbeat.yml.j2
+    dest: /etc/heartbeat/heartbeat.yml
+    mode: 0600
+    owner: root
+    force: yes
+
+- name: Restart process and reload systemd
+  become: true
+  systemd:
+    name: heartbeat-elastic
+    enabled: yes
+    state: restarted
+    daemon_reload: yes
+  tags:
+    - restart

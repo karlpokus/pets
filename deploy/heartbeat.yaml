@@ -1,0 +1,7 @@
+---
+
+- hosts: load-01
+  name: deploy heartbeat
+  remote_user: "{{ user }}"
+  roles:
+    - heartbeat

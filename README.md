@@ -46,7 +46,8 @@ $ ansible-playbook -i hosts user.yaml tools.yaml [--limit <host>]
 # setup mongodb
 $ ansible-playbook -i hosts mongodb.yaml
 # deploy metrics
-$ ansible-playbook -i hosts metricbeat.yaml
+$ ansible-playbook -i hosts metricbeat.yaml [--limit <host>]
+$ ansible-playbook -i hosts heartbeat.yaml
 # deploy and start web
 $ ansible-playbook -i hosts web.yaml [--tags=restart,update_conf]
 # deploy and start pets service
@@ -63,13 +64,14 @@ $ ansible-playbook -i hosts pets.yaml
 - [x] service
 - [x] elastic apm on elastic cloud
 - [x] add apm agents
-- [ ] deploy web and service
+- [x] deploy web and service
 - [ ] [centralized logs](https://www.elastic.co/products/beats/filebeat)
-- [ ] [ping/heartbeat](https://www.elastic.co/products/beats/heartbeat)
+- [x] [ping/heartbeat](https://www.elastic.co/products/beats/heartbeat)
 - [ ] elastic apm rum
 - [ ] [kibana dashboards](https://www.elastic.co/guide/en/kibana/7.1/dashboard.html)
 - [ ] etcd for config management
 - [ ] sre dashboard in kibana
+- [ ] nginx ssl
 
 # license
 MIT

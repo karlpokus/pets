@@ -9,8 +9,8 @@
     proto: tcp
     state: reloaded
   loop:
-    - "{{ web.ip }}"
-    - "{{ pets.ip }}"
+    - "{{ web.ip.private }}"
+    - "{{ pets.ip.private }}"
 
 - name: copy config
   become: true

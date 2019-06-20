@@ -20,5 +20,16 @@ module.exports = {
       os: process.platform,
       v8: process.versions.v8
     });
+  },
+  ping: ctx => {
+    let msg = "";
+    if (ctx.mongoClient.isConnected()) {
+      msg = "db connection ok";
+      ctx.response.status = 200;
+    } else {
+      msg = "db connection not ok";
+      ctx.response.status = 500;
+    }
+    return ctx.body = msg;
   }
 };

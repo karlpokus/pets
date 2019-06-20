@@ -16,7 +16,8 @@ const router = new Router({ prefix: "/api/v1" });
 router
 	.get("/pets", auth, routes.allPets)
 	.post("/pet", auth, routes.addPet)
-	.get("/stats", routes.stat);
+	.get("/stats", routes.stat)
+	.get("/ping", routes.ping);
 
 app
 	.use(bodyparser())
@@ -24,8 +25,8 @@ app
 	.use(router.allowedMethods())
 
 db()
-	.then(users => {
-		app.context.users = users;
+	.then(mongoClient => {
+		app.context.mongoClient = mongoClient;
 		app.listen(port, host, () => {
 			console.log(`web ${ version } listening on ${ host }:${ port }`)
 		})

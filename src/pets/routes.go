@@ -90,3 +90,17 @@ func addPet(client *mongo.Client) http.HandlerFunc {
 		fmt.Fprintf(w, "new pet added id: %s", res.InsertedID.(primitive.ObjectID).Hex())
 	}
 }
+
+func ping(client *mongo.Client) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request){
+		ctx, cancel := context.WithTimeout(context.Background(), 1 * time.Second)
+		defer cancel()
+		err := client.Ping(ctx, nil)
+		if err != nil {
+			Stderr.Printf("db ping failure: %s", err)
+			http.Error(w, "db ping failure", http.StatusInternalServerError)
+	    return
+		}
+		fmt.Fprintf(w, "ok")
+	}
+}

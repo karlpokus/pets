@@ -60,6 +60,7 @@ func New() (*Server, error) {
 	router.Handler("GET", "/api/v1/pets", logRequest(getPets(client)))
 	router.Handler("GET", "/api/v1/version", logRequest(getVersion()))
 	router.Handler("POST", "/api/v1/pet", logRequest(addPet(client)))
+	router.Handler("GET", "/api/v1/ping", ping(client))
 
 	host := os.Getenv("HTTP_HOST")
 	port := os.Getenv("HTTP_PORT")

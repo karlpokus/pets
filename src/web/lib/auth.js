@@ -11,7 +11,9 @@ function basicAuth(authHeader) {
 function auth(ctx, next) {
 	const [name, pwd] = basicAuth(ctx.request.headers.authorization);
 	if (name && pwd) {
-		return ctx.users.findOne({ name, pwd })
+		const users = ctx.mongoClient.db('pets').collection('users');
+
+		return users.findOne({ name, pwd })
 			.then(doc => {
 				if (!doc) {
 					return Promise.reject(new Error(`ERR no match for ${ name }:${ pwd }`));

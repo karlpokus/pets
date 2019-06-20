@@ -15,16 +15,16 @@ const opts = {
 
 function db() {
   return mongo.connect(connString, opts)
-  	.then(mongoClient => {
+  	.then(client => {
   		console.log('connected to db');
-  		process.on('SIGINT', exit.bind(null, mongoClient));
-  		return mongoClient.db('pets').collection('users');
+  		process.on('SIGINT', exit.bind(null, client));
+      return client;
   	});
 };
 
-function exit(mongoClient) {
-	if (mongoClient) {
-		mongoClient.close();
+function exit(client) {
+	if (client.isConnected()) {
+		client.close();
 		console.log('db closed');
 	}
 	process.exit(0);

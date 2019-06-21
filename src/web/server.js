@@ -1,4 +1,6 @@
-const apm = require('elastic-apm-node').start(); // note: swallows exceptions
+const apm = require('elastic-apm-node').start({ // note: swallows exceptions
+	transactionSampleRate: 0.2
+});
 const port = process.env.HTTP_PORT;
 const host = process.env.HTTP_HOST;
 const version = process.env.npm_package_version;

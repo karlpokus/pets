@@ -18,7 +18,7 @@ type (
   	c  *mongo.Client
   	db *mongo.Database
   }
-  type Collection struct {
+  Collection struct {
   	c *mongo.Collection
   }
   Cursor struct {

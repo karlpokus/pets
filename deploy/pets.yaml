@@ -4,6 +4,8 @@
   name: run build before deploy
   tasks:
     - local_action: command ../src/pets/build.sh linux
+      register: result
+      failed_when: result.rc > 0
 
 - hosts: service-01
   name: deploy pets service

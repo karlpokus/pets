@@ -11,15 +11,8 @@ import (
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"pets/internal/model"
 )
-
-type Pet struct {
-	Name string `json:"name"`
-	Kind string `json:"kind"`
-}
 
 type Stats struct {
 	Name      string `json:"name"`
@@ -53,22 +46,22 @@ func stats() http.HandlerFunc {
 	}
 }
 
-func getPets(client *mongo.Client) http.HandlerFunc {
+func getPets(client model.MongoClient) http.HandlerFunc { // *mongo.Client
 	return func(w http.ResponseWriter, r *http.Request) {
 		coll := client.Database("pets").Collection("pets")
 		ctx, cancel := context.WithTimeout(r.Context(), 3*time.Second)
 		defer cancel()
-		cur, err := coll.Find(ctx, bson.M{}, options.Find())
+		cur, err := coll.Find(ctx, bson.M{})
 		if err != nil {
 			Stderr.Printf("Unable to find pets: %s", err)
 			http.Error(w, http.StatusText(500), http.StatusInternalServerError)
 			return
 		}
 		defer cur.Close(ctx)
-		var list []Pet
+		var list []model.Pet
 
 		for cur.Next(ctx) { // cur.All(ctx, &list) is undefined. Bug submitted
-			var p Pet
+			var p model.Pet
 			if err := cur.Decode(&p); err != nil {
 				Stderr.Printf("Pets cursor decode err: %s", err)
 				http.Error(w, http.StatusText(500), http.StatusInternalServerError)
@@ -88,9 +81,9 @@ func getPets(client *mongo.Client) http.HandlerFunc {
 	}
 }
 
-func addPet(client *mongo.Client) http.HandlerFunc {
+func addPet(client model.MongoClient) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var p Pet
+		var p model.Pet
 		if err := json.NewDecoder(r.Body).Decode(&p); err != nil {
 			Stderr.Printf("Unable to read body: %s", err)
 			http.Error(w, http.StatusText(500), http.StatusInternalServerError)
@@ -102,21 +95,21 @@ func addPet(client *mongo.Client) http.HandlerFunc {
 		ctx, cancel := context.WithTimeout(r.Context(), 3*time.Second)
 		defer cancel()
 
-		res, err := coll.InsertOne(ctx, p, options.InsertOne())
+		err := coll.InsertOne(ctx, p)
 		if err != nil {
 			Stderr.Printf("Unable to insert pet: %s", err)
 			http.Error(w, http.StatusText(500), http.StatusInternalServerError)
 			return
 		}
-		fmt.Fprintf(w, "new pet added id: %s", res.InsertedID.(primitive.ObjectID).Hex())
+		fmt.Fprintf(w, "%s added", p.Name)
 	}
 }
 
-func ping(client *mongo.Client) http.HandlerFunc {
+func ping(client model.MongoClient) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 		defer cancel()
-		err := client.Ping(ctx, nil)
+		err := client.Ping(ctx)
 		if err != nil {
 			Stderr.Printf("db ping failure: %s", err)
 			http.Error(w, "db ping failure", http.StatusInternalServerError)

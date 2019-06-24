@@ -10,13 +10,12 @@ import (
 	"time"
 
 	"go.elastic.co/apm/module/apmhttprouter"
-	"go.mongodb.org/mongo-driver/mongo"
 	"pets/internal/db"
 )
 
 type Server struct {
 	*http.Server
-	*mongo.Client
+	*db.Client
 	Addr string
 }
 

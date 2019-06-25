@@ -1,9 +1,6 @@
 const apm = require('elastic-apm-node').start({ // note: swallows exceptions
 	transactionSampleRate: 0.2
 });
-const port = process.env.HTTP_PORT;
-const host = process.env.HTTP_HOST;
-const version = process.env.npm_package_version;
 
 const Koa = require('koa');
 const Router = require('koa-router');
@@ -26,14 +23,4 @@ app
 	.use(router.routes())
 	.use(router.allowedMethods())
 
-db()
-	.then(mongoClient => {
-		app.context.mongoClient = mongoClient;
-		app.listen(port, host, () => {
-			console.log(`web ${ version } listening on ${ host }:${ port }`)
-		})
-	})
-	.catch(err => {
-		console.error(`Attempt to connect to db failed: ${ err }`);
-		process.exit(0);
-	})
+module.exports = {app, db};

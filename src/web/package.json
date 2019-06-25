@@ -1,11 +1,11 @@
 {
   "name": "web",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "api gateway",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "test": "ELASTIC_APM_ACTIVE=false node test.js && echo 'tests pass'",
+    "start": "node index.js"
   },
   "author": "Karl Pokus <karl.pokus@gmail.com> (https://github.com/karlpokus)",
   "license": "MIT",
@@ -16,5 +16,9 @@
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
     "mongodb": "^3.2.6"
+  },
+  "devDependencies": {
+    "nock": "^10.0.6",
+    "supertest": "^4.0.2"
   }
 }

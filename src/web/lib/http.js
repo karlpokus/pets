@@ -1,6 +1,6 @@
 const axios = require('axios');
-const petsHost = process.env.SERVICE_PETS_HOST;
-const petsPort = process.env.SERVICE_PETS_PORT;
+const petsHost = process.env.SERVICE_PETS_HOST || 'localhost'; // quick and dirty - should be in config
+const petsPort = process.env.SERVICE_PETS_PORT || 8989;
 
 module.exports = axios.create({
   baseURL: `http://${ petsHost }:${ petsPort }`,

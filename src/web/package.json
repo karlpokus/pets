@@ -1,10 +1,10 @@
 {
   "name": "web",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "api gateway",
   "main": "server.js",
   "scripts": {
-    "test": "ELASTIC_APM_ACTIVE=false node test.js && echo PASS || echo FAILED",
+    "test": "ELASTIC_APM_ACTIVE=false node test.js",
     "start": "node index.js"
   },
   "author": "Karl Pokus <karl.pokus@gmail.com> (https://github.com/karlpokus)",

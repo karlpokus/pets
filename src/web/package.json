@@ -18,7 +18,7 @@
     "mongodb": "^3.2.6"
   },
   "devDependencies": {
-    "nock": "^10.0.6",
+    "nock": "11.4.0",
     "supertest": "^4.0.2"
   }
 }

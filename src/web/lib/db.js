@@ -5,12 +5,7 @@ const port = process.env.MONGODB_PORT;
 const connString = `mongodb://${ host }:${ port }`;
 const opts = {
   useNewUrlParser: true,
-  authSource: process.env.MONGODB_PETS_AUTHSOURCE,
-  appname: "pets-web",
-  auth: {
-    user: process.env.MONGODB_PETS_USER,
-    password: process.env.MONGODB_PETS_PWD
-  }
+  appname: "pets-web"
 }
 
 function db() {

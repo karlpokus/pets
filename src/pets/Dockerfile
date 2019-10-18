@@ -8,9 +8,7 @@ RUN go mod download # deps will be cached
 
 COPY . .
 
-ARG VERSION
-RUN export VERSION=`cat version`
-RUN go build -ldflags "-X pets.Version=$VERSION" -o pets ./cmd/pets
+RUN go build -o pets ./cmd/pets
 
 EXPOSE 9013
 

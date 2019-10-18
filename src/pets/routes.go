@@ -16,7 +16,6 @@ import (
 
 type Stats struct {
 	Name      string `json:"name"`
-	Version   string `json:"version"`
 	GoVersion string `json:"go_version"`
 }
 
@@ -31,7 +30,6 @@ func stats() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		payload := Stats{
 			Name:      "pets",
-			Version:   Version,
 			GoVersion: runtime.Version(),
 		}
 		var buf bytes.Buffer

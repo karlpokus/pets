@@ -19,8 +19,6 @@ type Server struct {
 	Addr string
 }
 
-var Version = "vX.Y.Z" // injected at build time
-
 var Stdout = log.New(os.Stdout, "", 0)
 var Stderr = log.New(os.Stderr, "", 0)
 
@@ -45,7 +43,7 @@ func cleanupOnExit(s *Server) {
 
 func (s *Server) Start() error {
 	go cleanupOnExit(s)
-	Stdout.Println(fmt.Sprintf("pets %s listening on %s", Version, s.Addr))
+	Stdout.Println(fmt.Sprintf("pets listening on %s", s.Addr))
 	return s.ListenAndServe()
 }
 

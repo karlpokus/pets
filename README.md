@@ -1,13 +1,9 @@
 # pets
-
 A silly pet store to demonstrate SRE metrics with elastic apm.
 
-Apps-, services and dbs will be deployed on cheap digital ocean droplets with ansible and elastic apm will be hosted on elastic cloud. Apps will be written in go and nodeJS.
-
-Since elastic apm captures redis-, and mongodb traffic ootb we'll include them somehow.
+This repo has split into multiple branches: an old native-systemd and containerized procs on master.
 
 # hosts
-
 - api gateway
 - services on a shared host
 - redis
@@ -15,7 +11,6 @@ Since elastic apm captures redis-, and mongodb traffic ootb we'll include them s
 - elastic cloud (elastic apm, elasticsearch, kibana)
 
 # metrics
-
 - host system metrics
 - [apm agent](https://www.elastic.co/guide/en/apm/agent/index.html)
 - [mongodb stats](https://www.elastic.co/guide/en/beats/metricbeat/current/metricbeat-module-mongodb.html)
@@ -23,7 +18,6 @@ Since elastic apm captures redis-, and mongodb traffic ootb we'll include them s
 - [go mem and gc](https://www.elastic.co/guide/en/beats/metricbeat/current/metricbeat-module-golang.html)
 
 # usage
-
 run dev
 ```bash
 $ hans -v -conf hans.yml
@@ -38,7 +32,6 @@ $ curl -i -u <credentials> -d <data> -H "Content-Type:application/json" localhos
 ```
 
 # deploy
-
 ```bash
 cd deploy
 # initial setup

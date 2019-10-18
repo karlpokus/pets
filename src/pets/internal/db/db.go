@@ -72,11 +72,6 @@ func (c *Client) Disconnect(ctx context.Context) error {
 // New returns a validated client connection based on options read from env vars
 func New() (*Client, error) {
 	clientOpts := options.Client().SetAppName("pets-service")
-	clientOpts.SetAuth(options.Credential{
-		AuthSource: os.Getenv("MONGODB_PETS_AUTHSOURCE"),
-		Username:   os.Getenv("MONGODB_PETS_USER"),
-		Password:   os.Getenv("MONGODB_PETS_PWD"),
-	})
 	clientOpts.SetMonitor(apmmongo.CommandMonitor())
 	clientOpts.ApplyURI(fmt.Sprintf("mongodb://%s:%s", os.Getenv("MONGODB_HOST"), os.Getenv("MONGODB_PORT")))
 

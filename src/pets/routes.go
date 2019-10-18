@@ -1,12 +1,10 @@
 package pets
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"runtime"
 	"strings"
 	"time"
 
@@ -23,24 +21,6 @@ func logRequest(next http.Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		Stdout.Print(fmt.Sprintf("%s %s", r.Method, r.URL.Path))
 		next.ServeHTTP(w, r)
-	}
-}
-
-func stats() http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		payload := Stats{
-			Name:      "pets",
-			GoVersion: runtime.Version(),
-		}
-		var buf bytes.Buffer
-		err := json.NewEncoder(&buf).Encode(payload)
-		if err != nil {
-			Stderr.Printf("Unable to decode stats payload: %s", err)
-			http.Error(w, http.StatusText(500), http.StatusInternalServerError)
-			return
-		}
-		w.Header().Set("Content-Type", "application/json")
-		w.Write(buf.Bytes())
 	}
 }
 

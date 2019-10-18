@@ -11,32 +11,6 @@ module.exports = {
   		.then(res => ctx.body = res.data)
   		.catch(err => ctx.throw(500, "server error"))
   },
-  stats: ctx => {
-    let webStats = {
-      name: "pets web",
-      version: process.env.npm_package_version,
-      uptime: process.uptime(),
-      node_version: process.version, // node version
-      os: process.platform,
-      v8: process.versions.v8
-    };
-
-    return http.get('/api/v1/stats')
-      .then(res => {
-        ctx.set('Content-Type', 'application/json')
-        return ctx.body = JSON.stringify([
-          webStats,
-          res.data
-        ]);
-      }).catch(err => {
-        console.error(`Fetch pets stats failure ${ err }`);
-        ctx.set('Content-Type', 'application/json')
-        return ctx.body = JSON.stringify([
-          webStats,
-          {}
-        ]);
-      });
-  },
   ping: ctx => {
     let msg = "";
     if (ctx.mongoClient.isConnected()) {

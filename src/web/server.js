@@ -15,7 +15,6 @@ const router = new Router({ prefix: "/api/v1" });
 router
 	.get("/pets", auth, routes.allPets)
 	.post("/pet", auth, routes.addPet)
-	.get("/stats", routes.stats)
 	.get("/ping", routes.ping);
 
 app

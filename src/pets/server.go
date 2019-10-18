@@ -55,7 +55,6 @@ func New() (*Server, error) {
 	Stdout.Println("connected to db")
 	router := apmhttprouter.New() // wraps httprouter
 	router.Handler("GET", "/api/v1/pets", logRequest(getPets(client)))
-	router.Handler("GET", "/api/v1/stats", stats())
 	router.Handler("POST", "/api/v1/pet", logRequest(addPet(client)))
 	router.Handler("GET", "/api/v1/ping", ping(client))
 

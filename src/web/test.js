@@ -50,6 +50,7 @@ testTable.forEach(tt => {
       assert.strictEqual(res.text, tt.text);
     })
     .catch(err => {
-      console.error(`${ tt.path } failed: ${ err }`)
+      console.error(`${ tt.path } failed: ${ err }`);
+			process.exit(1);
     });
 });

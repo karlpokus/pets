@@ -1,0 +1,41 @@
+version: '3'
+services:
+  mongo:
+    image: mongo:4.0.3
+    container_name: mongo
+    ports:
+      - 127.0.0.1:27017:27017
+    volumes:
+      - mongo:/data
+      - ./mongo-seed.js:/docker-entrypoint-initdb.d/mongo-seed.js
+    restart: always
+  web:
+    image: pokus2000/pets-web:v0.7.1
+    container_name: web
+    depends_on:
+      - mongo
+    environment:
+      ELASTIC_APM_ACTIVE: 'false'
+      MONGODB_HOST: mongo
+      MONGODB_PORT: 27017
+      SERVICE_PETS_HOST: pets
+      SERVICE_PETS_PORT: 9013
+      HTTP_HOST: 0.0.0.0
+      HTTP_PORT: 9012
+    ports:
+      - 127.0.0.1:9012:9012
+    restart: always
+  pets:
+    image: pokus2000/pets-service:v0.6.0
+    container_name: pets
+    depends_on:
+      - mongo
+    env_file: ./src/pets/.env
+    environment:
+      MONGODB_HOST: mongo # overrides
+      HTTP_HOST: 0.0.0.0
+    ports:
+      - 127.0.0.1:9013:9013
+    restart: always
+volumes:
+  mongo:

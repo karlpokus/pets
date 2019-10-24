@@ -1,11 +1,11 @@
 package pets
 
 import (
-	"testing"
 	"bytes"
+	"testing"
 
-	"pets/internal/dbmock"
 	"github.com/karlpokus/routest"
+	"pets/internal/dbmock"
 )
 
 func TestRoutes(t *testing.T) {

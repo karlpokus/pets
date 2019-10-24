@@ -1,16 +1,25 @@
 package main
 
 import (
-  "fmt"
+	"flag"
 
   "pets"
+	"github.com/karlpokus/srv"
 )
 
+// set to true when running natively
+var native = flag.Bool("n", false, "running natively")
+
 func main() {
-  server, err := pets.New()
+	flag.Parse()
+	stdout := pets.Logging(*native)
+  s, err := srv.New(pets.Conf(*native, stdout))
   if err != nil {
-    fmt.Printf("Unable to create server: %s", err)
-    return
+    stdout.Fatal(err)
   }
-  server.Start()
+  err = s.Start()
+	if err != nil {
+		stdout.Fatal(err)
+	}
+	stdout.Println("main exited")
 }

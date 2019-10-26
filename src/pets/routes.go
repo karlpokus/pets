@@ -5,18 +5,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strings"
 	"time"
 	"log"
 
-	"go.mongodb.org/mongo-driver/bson"
-	"pets/internal/model"
-)
 
-type Stats struct {
-	Name      string `json:"name"`
-	GoVersion string `json:"go_version"`
-}
+	"pets/internal/model"
+	"pets/internal/store"
+)
 
 func logRequest(stdout *log.Logger, next http.Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -25,69 +20,47 @@ func logRequest(stdout *log.Logger, next http.Handler) http.HandlerFunc {
 	}
 }
 
-func getPets(client model.MongoClient) http.HandlerFunc { // *mongo.Client
+func getPets(s store.Pets) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		coll := client.Database("pets").Collection("pets")
-		ctx, cancel := context.WithTimeout(r.Context(), 3*time.Second)
+		ctx, cancel := context.WithTimeout(r.Context(), 2*time.Second)
 		defer cancel()
-		cur, err := coll.Find(ctx, bson.M{})
+		pets, err := s.Find(ctx)
 		if err != nil {
+			// TODO: log err
 			http.Error(w, http.StatusText(404), 404)
 			return
 		}
-		defer cur.Close(ctx)
-		var list []model.Pet
-
-		for cur.Next(ctx) { // cur.All(ctx, &list) is undefined. Bug submitted
-			var p model.Pet
-			if err := cur.Decode(&p); err != nil {
-				http.Error(w, http.StatusText(500), 500)
-				return
-			}
-			list = append(list, p)
-		}
-		if err := cur.Err(); err != nil {
-			http.Error(w, http.StatusText(500), 500)
-			return
-		}
-		// only return names for now
-		var names []string
-		for _, p := range list {
-			names = append(names, p.Name)
-		}
-		fmt.Fprintf(w, "%s\n", strings.Join(names, ","))
+		fmt.Fprintf(w, "%s", pets)
 	}
 }
 
-func addPet(client model.MongoClient) http.HandlerFunc {
+func addPet(s store.Pets) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var p model.Pet
-		if err := json.NewDecoder(r.Body).Decode(&p); err != nil {
+		var pet model.Pet
+		if err := json.NewDecoder(r.Body).Decode(&pet); err != nil {
 			http.Error(w, http.StatusText(400), 400)
 			return
 		}
 		defer r.Body.Close()
-		coll := client.Database("pets").Collection("pets")
-		ctx, cancel := context.WithTimeout(r.Context(), 3*time.Second)
+		ctx, cancel := context.WithTimeout(r.Context(), 2*time.Second)
 		defer cancel()
-		err := coll.InsertOne(ctx, p)
-		if err != nil {
+		if err := s.InsertOne(ctx, pet); err != nil {
 			http.Error(w, http.StatusText(400), 400)
 			return
 		}
-		fmt.Fprintf(w, "%s added", p.Name)
+		fmt.Fprintf(w, "%s added", pet.Name)
 	}
 }
 
-func ping(client model.MongoClient) http.HandlerFunc {
+func ping(s store.Pets) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 		defer cancel()
-		err := client.Ping(ctx)
+		err := s.Ping(ctx)
 		if err != nil {
-			http.Error(w, "db ping failure", 500)
+			http.Error(w, "ping failed", 500)
 			return
 		}
-		fmt.Fprintf(w, "ok")
+		fmt.Fprintf(w, "pong")
 	}
 }

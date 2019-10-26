@@ -15,7 +15,7 @@ func TestRoutes(t *testing.T) {
 			nil,
 			getPets(dbmock.New()),
 			200,
-			[]byte("rex,bixa"),
+			[]byte(`[{"name":"bixa","kind":"cat"}]`),
 		},
 		{
 			"addPet",
@@ -29,7 +29,7 @@ func TestRoutes(t *testing.T) {
 			nil,
 			ping(dbmock.New()),
 			200,
-			[]byte("ok"),
+			[]byte("pong"),
 		},
 	})
 }

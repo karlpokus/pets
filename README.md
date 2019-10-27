@@ -18,6 +18,16 @@ $ docker run -d -p 127.0.0.1:27017:27017 --rm \
 $ go run ./cmd/pets -n
 ```
 
+# build
+
+building images requires passing tests
+```bash
+# cd src/web - grabs version from package.json
+$ ./build.sh
+# cd src/pets - grabs version from file
+$ ./build.sh
+```
+
 # api
 
 ```bash
@@ -47,6 +57,7 @@ $ curl -u <credentials> localhost:9012/api/v1/pet -d '{"name":"pet"}' -H "Conten
 - [x] graceful exits for http Servers and db connections
 - [x] containerize apps
 - [x] docker-composed dev
+- [x] build scripts with tests
 - [ ] run on k8s
 
 # license

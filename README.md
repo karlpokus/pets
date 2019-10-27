@@ -1,50 +1,30 @@
 # pets
-A silly pet store to demonstrate SRE metrics with elastic apm.
-
-This repo has split into multiple branches: an old native-systemd and containerized procs on master.
-
-# hosts
-- api gateway
-- services on a shared host
-- redis
-- mongodb
-- elastic cloud (elastic apm, elasticsearch, kibana)
-
-# metrics
-- host system metrics
-- [apm agent](https://www.elastic.co/guide/en/apm/agent/index.html)
-- [mongodb stats](https://www.elastic.co/guide/en/beats/metricbeat/current/metricbeat-module-mongodb.html)
-- [redis stats](https://www.elastic.co/guide/en/beats/metricbeat/current/metricbeat-module-redis.html)
-- [go mem and gc](https://www.elastic.co/guide/en/beats/metricbeat/current/metricbeat-module-golang.html)
+A silly pet store to demonstrate SRE metrics with elastic apm. This repo used to contain deploy instructions with ansible for all apps and apm components. Now that everything is containerized on the master branch - we keep the old stuff in the native-systemd branch.
 
 # usage
-run dev
+
+run everything in dev mode
 ```bash
-$ hans -v -conf hans.yml
+$ docker-compose -f docker-compose-dev.yml -d up|down [-v]
 ```
 
-api
+run only pets service native
+```bash
+# mongo is required of course
+$ docker run -d -p 127.0.0.1:27017:27017 --rm \
+-v mongo:/data -v `pwd`/mongo-seed.js:/docker-entrypoint-initdb.d/mongo-seed.js \
+--name mongo mongo:4.0.3
+# cd src/pets
+$ go run ./cmd/pets -n
+```
+
+# api
+
 ```bash
 # GET /api/v1/pets
-$ curl -i -u <credentials> localhost:9012/api/v1/pets
+$ curl -u <credentials> localhost:9012/api/v1/pets
 # POST /api/v1/pet
-$ curl -i -u <credentials> -d <data> -H "Content-Type:application/json" localhost:9012/api/v1/pet
-```
-
-# deploy
-```bash
-cd deploy
-# initial setup
-$ ansible-playbook -i hosts user.yaml tools.yaml [--limit <host>]
-# setup mongodb
-$ ansible-playbook -i hosts mongodb.yaml
-# deploy metrics
-$ ansible-playbook -i hosts metricbeat.yaml [--limit <host>]
-$ ansible-playbook -i hosts heartbeat.yaml
-# deploy and start web
-$ ansible-playbook -i hosts web.yaml [--tags=restart,update_conf]
-# deploy and start pets service
-$ ansible-playbook -i hosts pets.yaml
+$ curl -u <credentials> localhost:9012/api/v1/pet -d '{"name":"pet"}' -H "Content-Type:application/json"
 ```
 
 # todos
@@ -62,10 +42,12 @@ $ ansible-playbook -i hosts pets.yaml
 - [ ] [centralized logs](https://www.elastic.co/products/beats/filebeat)
 - [x] [ping/heartbeat](https://www.elastic.co/products/beats/heartbeat)
 - [ ] elastic apm rum
-- [ ] [kibana dashboards](https://www.elastic.co/guide/en/kibana/7.1/dashboard.html)
-- [ ] etcd for config management
-- [ ] sre dashboard in kibana
-- [ ] nginx ssl
+- [x] [kibana dashboards](https://www.elastic.co/guide/en/kibana/7.1/dashboard.html)
+- [x] sre dashboard in kibana
+- [x] graceful exits for http Servers and db connections
+- [x] containerize apps
+- [x] docker-composed dev
+- [ ] run on k8s
 
 # license
 MIT

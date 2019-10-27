@@ -21,7 +21,7 @@ func TestRoutes(t *testing.T) {
 			"addPet",
 			bytes.NewReader([]byte(`{"name":"bixa"}`)),
 			addPet(dbmock.New()),
-			200,
+			201,
 			[]byte("bixa added"),
 		},
 		{

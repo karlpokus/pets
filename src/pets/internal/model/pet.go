@@ -7,6 +7,10 @@ type Pet struct {
 	Kind string `json:"kind"`
 }
 
+func (p Pet) Valid() bool {
+	return p.Name != ""
+}
+
 type Pets []Pet
 
 func (p Pets) String() string {

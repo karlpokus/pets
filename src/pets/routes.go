@@ -30,7 +30,7 @@ func getPets(s store.Pets) http.HandlerFunc {
 			http.Error(w, http.StatusText(404), 404)
 			return
 		}
-		fmt.Fprintf(w, "%s", pets)
+		fmt.Fprintf(w, "%s", pets) // sets Content-Type: application/json; charset=utf-8
 	}
 }
 
@@ -38,16 +38,21 @@ func addPet(s store.Pets) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var pet model.Pet
 		if err := json.NewDecoder(r.Body).Decode(&pet); err != nil {
-			http.Error(w, http.StatusText(400), 400)
+			http.Error(w, "Malformed json body", 400)
 			return
 		}
 		defer r.Body.Close()
+		if !pet.Valid() {
+			http.Error(w, "Invalid json body", 400)
+			return
+		}
 		ctx, cancel := context.WithTimeout(r.Context(), 2*time.Second)
 		defer cancel()
 		if err := s.InsertOne(ctx, pet); err != nil {
 			http.Error(w, http.StatusText(400), 400)
 			return
 		}
+		w.WriteHeader(http.StatusCreated)
 		fmt.Fprintf(w, "%s added", pet.Name)
 	}
 }

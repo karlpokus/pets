@@ -1,7 +1,0 @@
----
-
-- hosts: all
-  name: create sudo user
-  remote_user: root
-  roles:
-    - user

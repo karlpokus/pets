@@ -1,9 +1,0 @@
----
-
-- hosts: web-01
-  name: deploy pets front end
-  remote_user: "{{ user }}"
-  roles:
-    - nodejs
-    - nginx
-    - web

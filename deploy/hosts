@@ -1,4 +1,0 @@
-mongodb-01 ansible_host=104.248.30.140
-web-01 ansible_host=165.227.157.210
-service-01 ansible_host=142.93.160.77
-load-01 ansible_host=165.22.93.90

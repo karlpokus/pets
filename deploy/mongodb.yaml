@@ -1,7 +1,0 @@
----
-
-- hosts: mongodb-01
-  name: setup mongodb
-  remote_user: "{{ user }}"
-  roles:
-    - mongodb

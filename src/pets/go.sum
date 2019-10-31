@@ -23,8 +23,12 @@ github.com/julienschmidt/httprouter v1.3.0 h1:U0609e9tgbseu3rBINet9P48AI/D3oJs4d
 github.com/julienschmidt/httprouter v1.3.0/go.mod h1:JR6WtHb+2LUe8TCKY3cZOxFyyO8IZAc4RVcycCCAKdM=
 github.com/karlpokus/routest v1.0.1 h1:2JNGTHsHsCDvcT5mHP0Fd5NS3rx6w0nHfTLOX933SKw=
 github.com/karlpokus/routest v1.0.1/go.mod h1:OpIZW9QGAV7bFt6YE9Qp82sCihO+Z4OONtM5qPayucU=
+github.com/karlpokus/routest/v2 v2.0.0/go.mod h1:gmYSDt1bDf/4SMG9GGTZDe65H/0MVPkvj7Fhw6neRUo=
+github.com/karlpokus/srv v0.3.1/go.mod h1:/vf/MnAOC6iHrQbEWML0NqE8N6WtPB+kAgpoaUKr+Mk=
 github.com/karlpokus/srv v0.4.0 h1:IPe3kDt+axiML2TT/Qh7lGwL1Gtrh2wNtXzpe8yNuC0=
 github.com/karlpokus/srv v0.4.0/go.mod h1:/vf/MnAOC6iHrQbEWML0NqE8N6WtPB+kAgpoaUKr+Mk=
+github.com/karlpokus/srv v0.5.0 h1:qohiHYQovmx/U/4dsZ+mGabkqYiqS58FSp1uS9VSB5I=
+github.com/karlpokus/srv v0.5.0/go.mod h1:5LRmPHytuLsVRZo7aY1Ic1TIOKabAbt/M6lENdY1PZ4=
 github.com/kr/pretty v0.1.0 h1:L/CwN0zerZDmRFUapSPitk6f+Q3+0za1rQkzVuMiMFI=
 github.com/kr/pretty v0.1.0/go.mod h1:dAy3ld7l9f0ibDNOQOHHMYYIIbhfbHSm3C4ZsoJORNo=
 github.com/kr/pty v1.1.1/go.mod h1:pFQYn66WHrOpPYNljwOMqo10TkYh1fy3cYio2l3bCsQ=

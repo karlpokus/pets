@@ -5,7 +5,6 @@ import (
 	"os"
 
 	"github.com/karlpokus/srv"
-	"go.elastic.co/apm/module/apmhttprouter"
 	"pets/internal/mongo"
 )
 
@@ -35,13 +34,10 @@ func Conf(native bool, stdout *log.Logger) srv.ConfFunc {
 		}
 		stdout.Println("connected to db")
 		s.ExiterList = append(s.ExiterList, db)
-		router := apmhttprouter.New() // wraps httprouter
-		router.Handler("GET", "/api/v1/pets", logRequest(stdout, getPets(db)))
-		router.Handler("POST", "/api/v1/pet", logRequest(stdout, addPet(db)))
-		router.Handler("GET", "/api/v1/ping", ping(db))
-		s.Router = router
 		s.Host = os.Getenv("HTTP_HOST")
 		s.Port = os.Getenv("HTTP_PORT")
+		s.Router = routes(db, stdout)
+		s.Logger = stdout
 		return nil
 	}
 }

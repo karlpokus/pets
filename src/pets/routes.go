@@ -8,10 +8,18 @@ import (
 	"time"
 	"log"
 
-
+	"go.elastic.co/apm/module/apmhttprouter"
 	"pets/internal/model"
 	"pets/internal/store"
 )
+
+func routes(s store.Pets, stdout *log.Logger) http.Handler {
+	router := apmhttprouter.New() // wraps httprouter
+	router.Handler("GET", "/api/v1/pets", logRequest(stdout, getPets(s)))
+	router.Handler("POST", "/api/v1/pet", logRequest(stdout, addPet(s)))
+	router.Handler("GET", "/api/v1/ping", ping(s))
+	return router
+}
 
 func logRequest(stdout *log.Logger, next http.Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {

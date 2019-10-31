@@ -8,7 +8,7 @@ module.exports = {
   },
   addPet: ctx => {
     return http.post('/api/v1/pet', ctx.request.body)
-  		.then(res => ctx.body = res.data)
+  		.then(res => ctx.body = res.data) // set 201 response
   		.catch(err => ctx.throw(500, "server error"))
   },
   ping: ctx => {

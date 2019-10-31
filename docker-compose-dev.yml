@@ -24,7 +24,7 @@ services:
       - 127.0.0.1:9012:9012
     restart: always
   pets:
-    image: pokus2000/pets-service:v0.8.1
+    image: pokus2000/pets-service:v0.8.2
     container_name: pets
     depends_on:
       - mongo

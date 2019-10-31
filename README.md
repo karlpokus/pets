@@ -2,20 +2,29 @@
 A silly pet store to demonstrate SRE metrics with elastic apm. This repo used to contain deploy instructions with ansible for all apps and apm components. Now that everything is containerized on the master branch - we keep the old stuff in the native-systemd branch.
 
 # usage
-
 run everything in dev mode
 ```bash
 $ docker-compose -f docker-compose-dev.yml -d up|down [-v]
 ```
 
-run only pets service native
+#### run native
+First start mongo
 ```bash
-# mongo is required of course
 $ docker run -d -p 127.0.0.1:27017:27017 --rm \
 -v mongo:/data -v `pwd`/mongo-seed.js:/docker-entrypoint-initdb.d/mongo-seed.js \
 --name mongo mongo:4.0.3
+```
+
+Run only pets service
+```bash
 # cd src/pets
 $ go run ./cmd/pets -n
+```
+
+Run only web native
+```bash
+# cd src/web
+$ npm run native
 ```
 
 # build

@@ -8,18 +8,15 @@ services:
       - ./mongo-seed.js:/docker-entrypoint-initdb.d/mongo-seed.js
     restart: always
   web:
-    image: pokus2000/pets-web:v0.7.1
+    image: pokus2000/pets-web:v0.7.2
     container_name: web
     depends_on:
       - mongo
-    environment:
-      ELASTIC_APM_ACTIVE: 'false'
+    env_file: ./src/web/.env
+    environment: # overrides env_file
       MONGODB_HOST: mongo
-      MONGODB_PORT: 27017
-      SERVICE_PETS_HOST: pets
-      SERVICE_PETS_PORT: 9013
       HTTP_HOST: 0.0.0.0
-      HTTP_PORT: 9012
+      SERVICE_PETS_HOST: pets
     ports:
       - 127.0.0.1:9012:9012
     restart: always
